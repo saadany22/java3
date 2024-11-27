@@ -16,15 +16,17 @@ public class ManagerUI extends JFrame {
     private ScheduleManager scheduleManager;
     private ConferenceDatabase conferenceDatabase; // For accessing usernames
     private CertificateManager certificateManager;  // Certificate manager
-    private JTextField sessionIdField, sessionNameField, speakerField, dateField, timeField, roomField;
-    private JComboBox<String> userDropdown; // Dropdown for selecting users
+    private JTextField sessionIdField, sessionNameField, dateField, timeField, roomField;
+    private JComboBox<String> userDropdown, speakerDropdown; // Dropdown for selecting users and speakers
     private JTextArea sessionDetailsArea, userScheduleArea;
+    private SpeakerDatabase speakerDatabase; // For storing speakers
 
     public ManagerUI(SessionManager sessionManager, ScheduleManager scheduleManager, ConferenceDatabase conferenceDatabase, CertificateManager certificateManager) {
         this.sessionManager = sessionManager;
         this.scheduleManager = scheduleManager;
         this.conferenceDatabase = conferenceDatabase;
         this.certificateManager = certificateManager;  // Initialize CertificateManager
+        this.speakerDatabase = new SpeakerDatabase(); // Initialize SpeakerDatabase
         initializeUI();
     }
 
@@ -38,7 +40,7 @@ public class ManagerUI extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         add(titleLabel, BorderLayout.NORTH);
 
-        JPanel formPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         formPanel.add(new JLabel("Session ID:"));
@@ -50,8 +52,9 @@ public class ManagerUI extends JFrame {
         formPanel.add(sessionNameField);
 
         formPanel.add(new JLabel("Speaker:"));
-        speakerField = new JTextField();
-        formPanel.add(speakerField);
+        speakerDropdown = new JComboBox<>();
+        populateSpeakerDropdown(); // Populate the dropdown with speaker names
+        formPanel.add(speakerDropdown);
 
         formPanel.add(new JLabel("Date (YYYY-MM-DD):"));
         dateField = new JTextField();
@@ -101,7 +104,16 @@ public class ManagerUI extends JFrame {
         });
         buttonPanel.add(addUserToSessionButton);
 
-        // New button to reward certificate
+        // New button to add a speaker with a popup
+        JButton addSpeakerButton = new JButton("Add Speaker");
+        addSpeakerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleAddSpeaker();  // Open the speaker add form
+            }
+        });
+        buttonPanel.add(addSpeakerButton);
+
         JButton rewardCertificateButton = new JButton("Reward Certificate");
         rewardCertificateButton.addActionListener(new ActionListener() {
             @Override
@@ -136,23 +148,59 @@ public class ManagerUI extends JFrame {
         }
     }
 
+    private void populateSpeakerDropdown() {
+        List<String> speakerNames = speakerDatabase.getSpeakerNames();
+        for (String name : speakerNames) {
+            speakerDropdown.addItem(name);
+        }
+    }
+
     private void handleCreateSession() {
         String sessionId = sessionIdField.getText();
         String sessionName = sessionNameField.getText();
-        String speaker = speakerField.getText();
+        String speakerName = (String) speakerDropdown.getSelectedItem(); // Get selected speaker from dropdown
         String date = dateField.getText();
         String time = timeField.getText();
         String room = roomField.getText();
 
-        if (sessionId.isEmpty() || sessionName.isEmpty() || speaker.isEmpty() || date.isEmpty() || time.isEmpty() || room.isEmpty()) {
+        if (sessionId.isEmpty() || sessionName.isEmpty() || speakerName == null || date.isEmpty() || time.isEmpty() || room.isEmpty()) {
             JOptionPane.showMessageDialog(this, "All fields are required to create a session.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        sessionManager.createSession(sessionId, sessionName, speaker, date, time, room);
+        sessionManager.createSession(sessionId, sessionName, speakerName, date, time, room);
         JOptionPane.showMessageDialog(this, "Session created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         clearFields();
+    }
+
+    private void handleAddSpeaker() {
+        // Create a popup form to enter speaker details
+        JTextField speakerNameField = new JTextField(20);
+        JTextField speakerBioField = new JTextField(20);
+
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+        panel.add(new JLabel("Speaker Name:"));
+        panel.add(speakerNameField);
+        panel.add(new JLabel("Speaker Bio:"));
+        panel.add(speakerBioField);
+
+        int option = JOptionPane.showConfirmDialog(this, panel, "Add Speaker", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String name = speakerNameField.getText();
+            String bio = speakerBioField.getText();
+
+            if (name.isEmpty() || bio.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Both fields are required to add a speaker.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Speaker newSpeaker = new Speaker(name, bio);
+            speakerDatabase.addSpeaker(newSpeaker);
+            populateSpeakerDropdown(); // Refresh the dropdown list with the new speaker
+            JOptionPane.showMessageDialog(this, "Speaker added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void displayAllSessions() {
@@ -196,42 +244,42 @@ public class ManagerUI extends JFrame {
             // Get the schedule as a single formatted string
             String schedule = scheduleManager.getUserSchedule(userName);
     
-            // Display the result in the text area
-            if (schedule != null && !schedule.isEmpty()) {
-                userScheduleArea.setText(schedule);
-            } else {
-                userScheduleArea.setText("No schedule found for " + userName + ".");
-            }
+            // Display the schedule in the user schedule area
+            userScheduleArea.setText(schedule);
         } catch (Exception e) {
-            // Handle any unexpected issues
-            userScheduleArea.setText("An error occurred while fetching the schedule for " + userName + ".");
+            JOptionPane.showMessageDialog(this, "Error displaying the user schedule: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void clearFields() {
         sessionIdField.setText("");
         sessionNameField.setText("");
-        speakerField.setText("");
         dateField.setText("");
         timeField.setText("");
         roomField.setText("");
+        speakerDropdown.setSelectedIndex(0);
         userDropdown.setSelectedIndex(0);
     }
 
     public static void main(String[] args) {
-        SessionDatabase sessionDatabase = new SessionDatabase("session.csv");
-        SessionManager sessionManager = new SessionManager(sessionDatabase);
+        // Create database objects that the managers depend on
+        SessionDatabase sessionDatabase = new SessionDatabase("session.csv"); // Pass the file or database source
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
+        ConferenceDatabase conferenceDatabase = new ConferenceDatabase("users.csv"); // Assuming it needs a file path
+        CertificateDatabase certificateDatabase = new CertificateDatabase("certificates.csv"); // Assuming it needs a file path
+        
+        // Initialize the manager objects with their corresponding databases
+        SessionManager sessionManager = new SessionManager(sessionDatabase);
         ScheduleManager scheduleManager = new ScheduleManager(scheduleDatabase);
-        ConferenceDatabase conferenceDatabase = new ConferenceDatabase("users.csv");
-
-        // Initialize the CertificateManager
-        CertificateDatabase certificateDatabase = new CertificateDatabase("certificates.csv");
         CertificateManager certificateManager = new CertificateManager(certificateDatabase);
-
+        
+        // Create the ManagerUI
         new ManagerUI(sessionManager, scheduleManager, conferenceDatabase, certificateManager);
     }
 }
+
+
+
 
 
 

@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=SpeakerDatabase
+comment1.params=
+comment1.target=SpeakerDatabase()
+comment2.params=speaker
+comment2.target=void\ addSpeaker(Speaker)
+comment3.params=
+comment3.target=java.util.List\ getSpeakerNames()
+numComments=4

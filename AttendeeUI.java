@@ -205,7 +205,7 @@ public class AttendeeUI extends JFrame {
         if (certificates.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No certificates found for the user.", "No Certificates", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            StringBuilder certList = new StringBuilder("Here is your Certificates:\n\n");
+            StringBuilder certList = new StringBuilder("Here are your certificates:\n\n");
             for (String cert : certificates) {
                 certList.append(cert).append("\n");
             }
@@ -231,6 +231,7 @@ public class AttendeeUI extends JFrame {
         new AttendeeUI(attendanceManager, feedbackManager, sessionManager, scheduleManager, certificateDatabase);
     }
 }
+
 
 
 

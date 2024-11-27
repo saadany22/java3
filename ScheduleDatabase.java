@@ -6,56 +6,49 @@
  * @version (a version number or a date)
  */
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleDatabase {
-    private List<String[]> userSchedules; // Each entry is a user schedule: [userName, sessionId1, sessionId2, ...]
+    private Map<String, List<String>> userSchedules; // Maps userName to a list of sessionIds
 
     public ScheduleDatabase() {
-        this.userSchedules = new ArrayList<>();
+        this.userSchedules = new HashMap<>();
     }
 
     // Add a session to a user's schedule
     public boolean addSessionToUserSchedule(String userName, String sessionId) {
-        for (int i = 0; i < userSchedules.size(); i++) {
-            String[] userSchedule = userSchedules.get(i);
+        // Get or create the user's schedule
+        userSchedules.putIfAbsent(userName, new ArrayList<>());
 
-            if (userSchedule[0].equals(userName)) {
-                // Check if the session is already in the schedule
-                for (int j = 1; j < userSchedule.length; j++) {
-                    if (userSchedule[j].equals(sessionId)) {
-                        return false; // Session already in schedule
-                    }
-                }
-
-                // Add session to existing schedule
-                String[] updatedSchedule = new String[userSchedule.length + 1];
-                System.arraycopy(userSchedule, 0, updatedSchedule, 0, userSchedule.length);
-                updatedSchedule[userSchedule.length] = sessionId;
-                userSchedules.set(i, updatedSchedule); // Update the schedule in the list
-                return true;
-            }
+        // Check if the session is already in the schedule
+        List<String> schedule = userSchedules.get(userName);
+        if (schedule.contains(sessionId)) {
+            return false; // Session already in schedule
         }
 
-        // If no user found, add a new schedule for the user
-        userSchedules.add(new String[] { userName, sessionId });
+        // Add the session to the schedule
+        schedule.add(sessionId);
         return true;
     }
 
     // Get a user's schedule as a formatted string
     public String getUserSchedule(String userName) {
-        for (String[] userSchedule : userSchedules) {
-            if (userSchedule[0].equals(userName)) {
-                StringBuilder schedule = new StringBuilder("Schedule for " + userName + ":\n");
-                for (int i = 1; i < userSchedule.length; i++) {
-                    schedule.append("Session ID: ").append(userSchedule[i]).append("\n");
-                }
-                return schedule.toString();
-            }
+        List<String> schedule = userSchedules.get(userName);
+
+        if (schedule == null || schedule.isEmpty()) {
+            return "No schedule found for user: " + userName;
         }
-        return "No schedule found for user: " + userName;
+
+        StringBuilder result = new StringBuilder("Schedule for " + userName + ":\n");
+        for (String sessionId : schedule) {
+            result.append("Session ID: ").append(sessionId).append("\n");
+        }
+        return result.toString();
     }
 }
+
 
 
 
