@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=SessionManager
+comment1.params=sessionDatabase
+comment1.target=SessionManager(SessionDatabase)
+comment2.params=sessionId\ sessionName\ speaker\ date\ time\ room
+comment2.target=void\ createSession(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.params=sessionId\ updatedName\ updatedSpeaker\ updatedDate\ updatedTime\ updatedRoom
+comment3.target=void\ updateSession(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment4.params=sessionId
+comment4.target=java.lang.String\ getSessionDetails(java.lang.String)
+comment5.params=sessionId\ speaker
+comment5.target=void\ linkSpeakerToSession(java.lang.String,\ java.lang.String)
+comment6.params=
+comment6.target=java.lang.String\ getAllSessions()
+comment7.params=sessionId
+comment7.target=boolean\ sessionExists(java.lang.String)
+numComments=8

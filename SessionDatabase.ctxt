@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=SessionDatabase
+comment1.params=fileName
+comment1.target=SessionDatabase(java.lang.String)
+comment2.params=sessionData
+comment2.target=void\ addSession(java.lang.String[])
+comment3.params=
+comment3.target=java.util.List\ getAllSessions()
+comment4.params=sessionId
+comment4.target=java.lang.String[]\ getSessionById(java.lang.String)
+comment5.params=updatedSessions
+comment5.target=void\ updateSessions(java.util.List)
+comment6.params=
+comment6.target=void\ loadSessionsFromFile()
+comment7.params=
+comment7.target=void\ saveSessionsToFile()
+numComments=8

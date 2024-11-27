@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=AttendanceManager
+comment1.params=database
+comment1.target=AttendanceManager(ConferenceDatabase)
+comment2.params=name\ email\ password
+comment2.target=boolean\ signup(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.params=email\ password
+comment3.target=java.lang.String\ login(java.lang.String,\ java.lang.String)
+comment4.params=
+comment4.target=java.lang.String\ getAllUsers()
+numComments=5

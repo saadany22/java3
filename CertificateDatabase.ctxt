@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=CertificateDatabase
+comment1.params=filePath
+comment1.target=CertificateDatabase(java.lang.String)
+comment2.params=userName\ sessionId
+comment2.target=void\ saveCertificate(java.lang.String,\ java.lang.String)
+comment3.params=userName\ sessionId
+comment3.target=boolean\ hasReceivedCertificate(java.lang.String,\ java.lang.String)
+comment4.params=
+comment4.target=java.util.Set\ loadIssuedCertificates()
+comment5.params=userName
+comment5.target=java.util.List\ getCertificatesForUser(java.lang.String)
+numComments=6

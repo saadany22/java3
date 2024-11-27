@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=ConferenceDatabase
+comment1.params=databaseFile
+comment1.target=ConferenceDatabase(java.lang.String)
+comment2.params=
+comment2.target=void\ ensureDatabaseFile()
+comment3.params=attendeeID\ name\ email\ password
+comment3.target=boolean\ addUser(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment4.params=email
+comment4.target=java.lang.String[]\ getUserByEmail(java.lang.String)
+comment5.params=
+comment5.target=java.util.List\ getAllUsers()
+comment6.params=
+comment6.target=java.util.List\ getAllUsernames()
+numComments=7

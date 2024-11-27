@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=Main
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=parent
+comment2.target=void\ showSignupDialog(javax.swing.JFrame)
+comment3.params=parent
+comment3.target=void\ showLoginDialog(javax.swing.JFrame)
+comment4.params=parent
+comment4.target=void\ showAllUsersDialog(javax.swing.JFrame)
+numComments=5

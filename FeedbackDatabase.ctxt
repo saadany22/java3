@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=FeedbackDatabase
+comment1.params=feedbackFile
+comment1.target=FeedbackDatabase(java.lang.String)
+comment2.params=
+comment2.target=void\ ensureFeedbackFile()
+comment3.params=userName\ feedbackText
+comment3.target=boolean\ addFeedback(java.lang.String,\ java.lang.String)
+comment4.params=
+comment4.target=java.util.List\ getAllFeedback()
+numComments=5

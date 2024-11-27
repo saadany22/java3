@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=FeedbackManager
+comment1.params=feedbackDatabase
+comment1.target=FeedbackManager(FeedbackDatabase)
+comment2.params=userName\ feedbackText
+comment2.target=boolean\ submitFeedback(java.lang.String,\ java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getFeedback()
+numComments=4

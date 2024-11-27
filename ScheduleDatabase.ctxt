@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=ScheduleDatabase
+comment1.params=
+comment1.target=ScheduleDatabase()
+comment2.params=userName\ sessionId
+comment2.target=boolean\ addSessionToUserSchedule(java.lang.String,\ java.lang.String)
+comment3.params=userName
+comment3.target=java.lang.String\ getUserSchedule(java.lang.String)
+numComments=4

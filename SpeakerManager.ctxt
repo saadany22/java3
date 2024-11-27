@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=SpeakerManager
+comment1.params=
+comment1.target=SpeakerManager()
+comment2.params=speakerId\ speakerName\ speakerBio
+comment2.target=void\ addSpeaker(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.params=speakerId
+comment3.target=java.lang.String\ getSpeakerBio(java.lang.String)
+numComments=4
