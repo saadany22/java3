@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=ConferenceManagementSystem
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=
+comment2.target=void\ createAndShowGUI()
+comment3.params=
+comment3.target=javax.swing.JPanel\ createAttendeePanel()
+comment4.params=
+comment4.target=javax.swing.JPanel\ createEventPanel()
+comment5.params=
+comment5.target=javax.swing.JPanel\ createOverviewPanel()
+numComments=6

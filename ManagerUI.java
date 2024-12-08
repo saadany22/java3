@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.border.EmptyBorder;
 
 public class ManagerUI extends JFrame {
     private SessionManager sessionManager;
@@ -32,114 +33,96 @@ public class ManagerUI extends JFrame {
 
     private void initializeUI() {
         setTitle("Conference Manager - Administrative Tools");
-        setSize(800, 600);
+        setSize(1000, 600); // Adjust size to accommodate the changes
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
+    
+        // Title at the top
         JLabel titleLabel = new JLabel("Conference Manager Administrative Panel", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         add(titleLabel, BorderLayout.NORTH);
-
+    
+        // Left side - form panel
         JPanel formPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
+    
         formPanel.add(new JLabel("Session ID:"));
         sessionIdField = new JTextField();
         formPanel.add(sessionIdField);
-
+    
         formPanel.add(new JLabel("Session Name:"));
         sessionNameField = new JTextField();
         formPanel.add(sessionNameField);
-
+    
         formPanel.add(new JLabel("Speaker:"));
         speakerDropdown = new JComboBox<>();
         populateSpeakerDropdown(); // Populate the dropdown with speaker names
         formPanel.add(speakerDropdown);
-
+    
         formPanel.add(new JLabel("Date (YYYY-MM-DD):"));
         dateField = new JTextField();
         formPanel.add(dateField);
-
+    
         formPanel.add(new JLabel("Time (HH:MM):"));
         timeField = new JTextField();
         formPanel.add(timeField);
-
+    
         formPanel.add(new JLabel("Room:"));
         roomField = new JTextField();
         formPanel.add(roomField);
-
+    
         formPanel.add(new JLabel("Select User:"));
         userDropdown = new JComboBox<>();
         populateUserDropdown(); // Populate the dropdown with usernames
         formPanel.add(userDropdown);
-
+    
         add(formPanel, BorderLayout.CENTER);
-
+    
+        // Bottom - button panel
         JPanel buttonPanel = new JPanel(new FlowLayout());
-
+    
         JButton createSessionButton = new JButton("Create Session");
-        createSessionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleCreateSession();
-            }
-        });
+        createSessionButton.addActionListener(e -> handleCreateSession());
         buttonPanel.add(createSessionButton);
-
+    
         JButton viewSessionsButton = new JButton("View All Sessions");
-        viewSessionsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayAllSessions();
-            }
-        });
+        viewSessionsButton.addActionListener(e -> displayAllSessions());
         buttonPanel.add(viewSessionsButton);
-
+    
         JButton addUserToSessionButton = new JButton("Add User to Session");
-        addUserToSessionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleAddUserToSession();
-            }
-        });
+        addUserToSessionButton.addActionListener(e -> handleAddUserToSession());
         buttonPanel.add(addUserToSessionButton);
-
-        // New button to add a speaker with a popup
+    
         JButton addSpeakerButton = new JButton("Add Speaker");
-        addSpeakerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleAddSpeaker();  // Open the speaker add form
-            }
-        });
+        addSpeakerButton.addActionListener(e -> handleAddSpeaker());
         buttonPanel.add(addSpeakerButton);
-
+    
         JButton rewardCertificateButton = new JButton("Reward Certificate");
-        rewardCertificateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleRewardCertificate(); // Reward certificate to selected user
-            }
-        });
+        rewardCertificateButton.addActionListener(e -> handleRewardCertificate());
         buttonPanel.add(rewardCertificateButton);
-
+    
         add(buttonPanel, BorderLayout.SOUTH);
-
-        JPanel displayPanel = new JPanel(new GridLayout(1, 2));
+    
+        // Right side - details section (always visible)
+        JPanel detailsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    
         sessionDetailsArea = new JTextArea();
         sessionDetailsArea.setEditable(false);
-        sessionDetailsArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        displayPanel.add(new JScrollPane(sessionDetailsArea));
-
+        sessionDetailsArea.setBorder(BorderFactory.createTitledBorder("Session Details"));
+        detailsPanel.add(new JScrollPane(sessionDetailsArea));
+    
         userScheduleArea = new JTextArea();
         userScheduleArea.setEditable(false);
-        userScheduleArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        displayPanel.add(new JScrollPane(userScheduleArea));
-
-        add(displayPanel, BorderLayout.EAST);
-
+        userScheduleArea.setBorder(BorderFactory.createTitledBorder("User Schedule"));
+        detailsPanel.add(new JScrollPane(userScheduleArea));
+    
+        add(detailsPanel, BorderLayout.EAST);
+    
         setVisible(true);
     }
+
+
 
     private void populateUserDropdown() {
         List<String> usernames = conferenceDatabase.getAllUsernames();
@@ -264,7 +247,7 @@ public class ManagerUI extends JFrame {
     public static void main(String[] args) {
         // Create database objects that the managers depend on
         SessionDatabase sessionDatabase = new SessionDatabase("session.csv"); // Pass the file or database source
-        ScheduleDatabase scheduleDatabase = new ScheduleDatabase();
+        ScheduleDatabase scheduleDatabase = new ScheduleDatabase("schedule.csv");
         ConferenceDatabase conferenceDatabase = new ConferenceDatabase("users.csv"); // Assuming it needs a file path
         CertificateDatabase certificateDatabase = new CertificateDatabase("certificates.csv"); // Assuming it needs a file path
         
