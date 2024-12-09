@@ -270,6 +270,7 @@ public class AttendeeUI extends JFrame {
         SessionDatabase sessionDatabase = new SessionDatabase("session.csv");
         ScheduleDatabase scheduleDatabase = new ScheduleDatabase("schedule.csv");
         CertificateDatabase certificateDatabase = new CertificateDatabase("certificates.csv");
+       
 
         // Initialize Managers
         AttendanceManager attendanceManager = new AttendanceManager(conferenceDatabase);

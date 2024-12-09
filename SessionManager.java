@@ -90,9 +90,7 @@ public class SessionManager {
             }
         }
         return false;  // Session not found
-    }
-
-    // Other methods remain unchanged...
+    }// Other methods remain unchanged...
 }
 
 

@@ -1,9 +1,15 @@
 #BlueJ class context
 comment0.target=SpeakerDatabase
-comment1.params=
-comment1.target=SpeakerDatabase()
-comment2.params=speaker
-comment2.target=void\ addSpeaker(Speaker)
+comment1.params=filePath
+comment1.target=SpeakerDatabase(java.lang.String)
+comment2.params=
+comment2.target=void\ loadSpeakersFromFile()
 comment3.params=
-comment3.target=java.util.List\ getSpeakerNames()
-numComments=4
+comment3.target=void\ saveSpeakersToFile()
+comment4.params=speaker
+comment4.target=void\ addSpeaker(Speaker)
+comment5.params=
+comment5.target=java.util.List\ getSpeakerNames()
+comment6.params=
+comment6.target=java.util.List\ getAllSpeakers()
+numComments=7

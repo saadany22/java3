@@ -5,24 +5,33 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-import java.util.ArrayList;
 import java.util.List;
 
-public class SpeakerManager {
-    private SpeakerDatabase speakerDatabase;
+public class SpeakerManager extends SpeakerDatabase {
 
-    public SpeakerManager(SpeakerDatabase speakerDatabase) {
-        this.speakerDatabase = speakerDatabase;
+    public SpeakerManager(String databaseFilePath) {
+        super(databaseFilePath); // Calls the constructor of SpeakerDatabase
+    }
+
+    @Override
+    public List<Speaker> getAllSpeakers() {
+        // Override the method to add custom logic, if needed
+        return super.getAllSpeakers(); // Call the parent method from SpeakerDatabase
     }
 
     public void addSpeaker(String name, String bio) {
-        speakerDatabase.addSpeaker(new Speaker(name, bio));
+        // Create a new Speaker object and add it to the database
+        Speaker newSpeaker = new Speaker(name, bio);
+        super.addSpeaker(newSpeaker); // Call the method from SpeakerDatabase
     }
 
-    public List<String> getAllSpeakers() {
-        return speakerDatabase.getSpeakerNames();
+    public List<String> getSpeakerNames() {
+        return super.getSpeakerNames(); // Return the list of speaker names
     }
 }
+
+
+
 
 
 
